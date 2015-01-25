@@ -1,6 +1,6 @@
   library(dplyr)
   
-  
+  ##Step 1
   variablesNames <- read.table(file = "features.txt",header=F,col.names=c("index","name"))
   activityLabels <- read.table(file = "activity_labels.txt",header=F,col.names=c("index","activityLabels"))
   
@@ -13,15 +13,17 @@
   y_Test <- read.table(file = "test/Y_test.txt",header=F,col.names=c("activity"))
   subjectTest <- read.table(file = "test/subject_test.txt",header=F,col.names=c("subject"))  
   test <- cbind(subjectTest,x_Test,y_Test)
-
-
   all <- rbind(train,test)
+  
+  ##Step 2
   allSelected <- all[,grepl("^(subject|activity)|mean|std",names(all),ignore.case = TRUE)]
+  
+  ##Step 3
   allSelectedIndex <- mutate(allSelected,index=seq(along.with=all[,1]))
   allSelectedIndexActivity <- arrange(merge(allSelectedIndex,activityLabels,by.x = "activity",by.y = "index"),index)
   allSelectedIndexActivity2 <- select(allSelectedIndexActivity,index,subject,activityLabels,-activity,tBodyAcc.mean...X:angle.Z.gravityMean.)
   
-  
+  ##Step 4
   names(allSelectedIndexActivity2) <- gsub("acc", "AccelerometerSignal", names(allSelectedIndexActivity2),ignore.case=TRUE)
   names(allSelectedIndexActivity2) <- gsub("Gyro", "GyroscopeSignal", names(allSelectedIndexActivity2),ignore.case=TRUE)
   names(allSelectedIndexActivity2) <- gsub("^t|\\.t", "TimeOf", names(allSelectedIndexActivity2),ignore.case=TRUE)
@@ -33,10 +35,10 @@
   names(allSelectedIndexActivity2) <- gsub("\\.Y", ".Yaxis", names(allSelectedIndexActivity2),ignore.case=TRUE)
   names(allSelectedIndexActivity2) <- gsub("\\.Z", ".Zaxis", names(allSelectedIndexActivity2),ignore.case=TRUE)
   
-
+  
   dataSetStep4 <- allSelectedIndexActivity2
   
-  
+  ##Step 5
   dataSetStep5 <- aggregate(.~activityLabels+subject,dataSetStep4,mean)
   dataSetStep5 <- select(dataSetStep5,-index)
   
