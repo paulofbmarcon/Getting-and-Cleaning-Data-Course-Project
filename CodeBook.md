@@ -28,18 +28,26 @@ Additional vectors obtained by averaging the signals in a signal window sample. 
  
 
 ========================================================================
-#### Experimental Study
 
-## Important Information
->To run the script you will need the dplyr package;
->The script doesn`t need any kind of parametrization;
->You need leave the data files in the same folder of the script, except the train and test files that shoul be in your original folders.
+####Experimental Study
 
-##Steps to obtain the tidy data set
+#####Important Information
+
+-To run the script you will need the dplyr package;
+
+-The script doesn`t need any kind of parametrization;
+
+-You need leave the data files in the same folder of the script, except the train and test files that shoul be in your original folders.
+
+#####Steps to obtain the tidy data set
 
 1. All the files were readen by read.table method. Other methods like read.fwf showed very slow. Where it was possible the collumns names were informed. With cbind and rbind all the files were grouped;
+
 2. Only the mean and standard deviation were left in the data set, this was achieved with the use of lgrep;
+
 3.The ActivityLabels column receveid meaningfull names for their observations;
+
 4. Using smart replacements all the columns names reaceived meaningfull names, avoiding abreaviated names;
+
 5. Finally with the use of agreggate function was obtained the mean of the variables grouped by ActivityLabels and Subject. Subsequently there is a call to write.table function to save the obtained data set.
 
